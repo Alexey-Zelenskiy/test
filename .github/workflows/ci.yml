@@ -15,6 +15,6 @@ jobs:
       - uses: expo/expo-github-action@v6
         with:
           expo-version: 4.x
-          token: ${{ secrets.LUNCHTIMING }}
+          token: ${{ secrets.EXPO_TOKEN }}
       - run: yarn install
       - run: expo publish
