@@ -4,11 +4,10 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { TouchableOpacity, Modal, StyleSheet, View } from "react-native";
+import { TouchableOpacity, Modal, StyleSheet, Text, View } from "react-native";
 import { WebView } from "react-native-webview";
 
-import { pipe, evolve, propSatisfies, applySpec, propOr, add } from "ramda";
-//@ts-ignore
+import { pipe, evolve, propSatisfies, applySpec, propOr } from "ramda";
 import querystring from "query-string";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -17,9 +16,6 @@ const AUTHORIZATION_URL: string =
 const ACCESS_TOKEN_URL: string =
   "https://www.linkedin.com/oauth/v2/accessToken";
 const LOGOUT_URL: string = "https://www.linkedin.com/m/logout";
-
-const CLIENT_ID = "78h43jf4e2omfl";
-const CLIENT_SECRET = "F75t096hOWyBDMnc";
 
 export interface LinkedInToken {
   authentication_code?: string;
@@ -34,6 +30,8 @@ export interface ErrorType {
 
 interface Props {
   ref: any;
+  clientID: string;
+  clientSecret?: string;
   redirectUri: string;
   authState?: string;
   permissions?: string[];
@@ -65,13 +63,13 @@ export function uid() {
 
 export const cleanUrlString = (state: string) => state.replace("#!", "");
 
-export const getCodeAndStateFromUrl = (url: string) => pipe(
+export const getCodeAndStateFromUrl = pipe(
   querystring.extract,
   querystring.parse,
   evolve({ state: cleanUrlString })
 );
 
-export const getErrorFromUrl = (url: string) => pipe(
+export const getErrorFromUrl = pipe(
   querystring.extract,
   querystring.parse,
   evolve({ error_description: cleanUrlString })
@@ -82,7 +80,7 @@ export const transformError = applySpec<ErrorType>({
   message: propOr("", "error_description"),
 });
 
-export const isErrorUrl = (url: string) => pipe(
+export const isErrorUrl = pipe(
   querystring.extract,
   querystring.parse,
   propSatisfies((error: any) => typeof error !== "undefined", "error")
@@ -97,18 +95,21 @@ export const injectedJavaScript = `
 
 export const getAuthorizationUrl = ({
   authState,
+  clientID,
   permissions,
   redirectUri,
 }: Partial<Props>) =>
   `${AUTHORIZATION_URL}?${querystring.stringify({
     response_type: "code",
-    client_id: CLIENT_ID,
+    client_id: clientID,
     scope: permissions!.join(" ").trim(),
     state: authState,
     redirect_uri: redirectUri,
   })}`;
 
 export const getPayloadForToken = ({
+  clientID,
+  clientSecret,
   code,
   redirectUri,
 }: Partial<Props> & { code: string }) =>
@@ -116,8 +117,8 @@ export const getPayloadForToken = ({
     grant_type: "authorization_code",
     code,
     redirect_uri: redirectUri,
-    client_id: CLIENT_ID,
-    client_secret: CLIENT_SECRET,
+    client_id: clientID,
+    client_secret: clientSecret,
   });
 
 export const fetchToken = async (payload: any) => {
@@ -148,7 +149,7 @@ export const onLoadStart = async (
     close();
     onError && onError(transformError(err));
   } else {
-    const { code, state }: any = getCodeAndStateFromUrl(url);
+    const { code, state } = getCodeAndStateFromUrl(url);
     if (!shouldGetAccessToken) {
       onSuccess({ authentication_code: code as string });
     } else if (state !== authState) {
@@ -174,7 +175,9 @@ const LinkedInModal: React.FC<Props> = forwardRef(
       shouldGetAccessToken = true,
       onSignIn,
       onSuccess,
+      clientID,
       permissions = ["r_liteprofile", "r_emailaddress"],
+      clientSecret,
       onClose,
       onOpen,
       renderButton,
@@ -223,6 +226,7 @@ const LinkedInModal: React.FC<Props> = forwardRef(
     };
     const _getAuthorizationUrl = () =>
       getAuthorizationUrl({
+        clientID: clientID,
         permissions: permissions,
         redirectUri: redirectUri,
         authState: auth,
@@ -230,6 +234,8 @@ const LinkedInModal: React.FC<Props> = forwardRef(
 
     const getAccessToken = async (code: string) => {
       const payload: string = getPayloadForToken({
+        clientID,
+        clientSecret,
         code: code,
         redirectUri,
       });
@@ -263,6 +269,29 @@ const LinkedInModal: React.FC<Props> = forwardRef(
           resolve();
         }, 3000);
       });
+
+    const _renderButton = () => {
+      if (renderButton) {
+        return (
+          <TouchableOpacity
+            onPress={open}
+            style={{ flex: 1 }}
+            hitSlop={areaTouchText}
+            disabled={isDisabled}>
+            {renderButton()}
+          </TouchableOpacity>
+        );
+      }
+      return (
+        <TouchableOpacity
+          onPress={open}
+          style={{ flex: 1 }}
+          hitSlop={areaTouchText}
+          disabled={isDisabled}>
+          <Text>{linkText}</Text>
+        </TouchableOpacity>
+      );
+    };
 
     const _renderClose = () => {
       if (renderClose) {

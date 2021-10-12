@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
   NavigationContainer,
@@ -10,27 +10,16 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
-
-// Navigators
 import HomeTabNavigator from '../HomeTabNavigator';
 import DetailScreen from '~/screens/DetailScreen/DetailScreenNew';
-// // Screens
-// import TextChatScreen from '~/screens/text-chat-screen';
-// //Components
-// import Loader from '~/components/loader';
-// import ChatAppBarMenu from '~/components/chat-app-bar-menu';
-// import ChatAppBarTitle from '~/components/chat-app-bar-title';
-// // Store
-// import {useStore} from '~/store';
-// import useChatMonitor from '~/store/effects/use-chat-monitor';
-// import useChatManager from '~/store/effects/use-chat-manager';
-// // Styles
-// import theme from '~/styles/theme';
+import { useStore } from '~/store';
+import theme from '~/styles/theme';
+import AuthStackNavigator from '../AuthStackNavigator';
+import Loader from '~/components/Loader';
 
 // Types
 export type RootStackParamList = {
   Home: undefined;
-  Auth: undefined;
   RestaurantDetails: undefined
 };
 
@@ -41,18 +30,21 @@ export type HomeTabParamList = {
   Events: undefined
 };
 
+export type AuthStackParamList = {
+  Login: undefined;
+};
+
 const RootStack = createStackNavigator<RootStackParamList>();
 
 interface RootStackNavigatorProps { }
 
 const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
   const [initialized, setInitialized] = useState(false);
-  // const store = useStore();
+  const store = useStore();
   const navigatorRef = useRef<NavigationContainerRef<any> | null>(null);
-  // // TODO: add real types
-  // // const navigate = useCallback((name: string, params?: any) => {
-  // //   navigatorRef.current?.navigate(name, params);
-  // // }, []);
+  const navigate = useCallback((name: string, params?: any) => {
+    navigatorRef.current?.navigate(name, params);
+  }, []);
 
   // useEffect(() => {
   //   RNBootSplash.show();
@@ -69,24 +61,28 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
   return (
     <>
       <NavigationContainer ref={navigatorRef}>
-        <RootStack.Navigator>
-          <RootStack.Screen
-            name="Home"
-            component={HomeTabNavigator}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <RootStack.Screen
-            name="RestaurantDetails"
-            component={DetailScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-        </RootStack.Navigator>
+        {store.auth.isSignedIn ? (
+          <RootStack.Navigator>
+            <RootStack.Screen
+              name="Home"
+              component={HomeTabNavigator}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <RootStack.Screen
+              name="RestaurantDetails"
+              component={DetailScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </RootStack.Navigator>)
+          : (
+            <AuthStackNavigator />
+          )}
       </NavigationContainer>
-      {/* {store.common.isLoading && <Loader />} */}
+      {store.common.isLoading && <Loader />}
     </>
   );
 });

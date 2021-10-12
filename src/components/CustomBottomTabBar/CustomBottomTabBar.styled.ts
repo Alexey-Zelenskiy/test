@@ -4,7 +4,7 @@ import theme from '~/styles/theme';
 
 const Container = styled.View`
   flex-direction: row;
-  background-color: ${theme.colors.brandGrayLight};
+  background-color: ${theme.colors.brandRed};
 `;
 
 const TouchableOpacity = styled.TouchableOpacity`

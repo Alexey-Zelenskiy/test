@@ -49,8 +49,8 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
         };
 
         const color = isFocused
-          ? theme.colors.brandDark
-          : theme.colors.lightText;
+          ? theme.colors.brandWhite
+          : theme.colors.brandDark;
         return (
           <S.TouchableOpacity
             key={route.key}

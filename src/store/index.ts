@@ -1,11 +1,14 @@
 import {createContext, useContext} from 'react';
-import CommonStore from '~/store/common-store-impl';
+import CommonStore from '~/store/commonStore';
+import AuthStore from '~/store/authStore';
 
-export class  RootStore {
+export class RootStore {
   common: CommonStore;
+  auth: AuthStore;
 
-  constructor()  {
+  constructor() {
     this.common = new CommonStore();
+    this.auth = new AuthStore();
   }
 }
 

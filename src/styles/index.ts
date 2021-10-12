@@ -1,7 +1,7 @@
 //@ts-ignore
 import styled from 'styled-components/native';
 import SafeAreaViewLib from 'react-native-safe-area-view';
-import {Text} from 'react-native-paper';
+import {Text, Headline} from 'react-native-paper';
 
 import theme from '~/styles/theme';
 
@@ -18,14 +18,15 @@ export const SafeAreaView = styled(SafeAreaViewLib)`
 `;
 
 const LogoContainer = styled.View`
-  flex-direction: row;
+  flex: 1;
   justify-content: center;
-  margin: 50px 0 20px 0;
+  align-items: center;
+  margin-bottom: 100px;
 `;
 
-const Logo = styled.Image`
-  height: 40px;
-  resize-mode: contain;
+const Logo = styled(Text)`
+  font-size: 150px;
+  color: ${theme.colors.brandRed};
 `;
 
 const TermsAndConditions = styled(Text)`
