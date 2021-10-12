@@ -11,7 +11,6 @@ const GoogleButton = styled(Button)`
   background-color: ${theme.colors.brandWhite};
 `;
  
-
 export default {
   GoogleButton,
 };
