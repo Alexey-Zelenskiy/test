@@ -3,3 +3,4 @@
 
 yarn build
 git add build
+npm test
