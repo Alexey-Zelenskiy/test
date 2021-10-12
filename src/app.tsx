@@ -15,11 +15,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import RootNavigation from './navigators';
 import { RootStore, StoreProvider } from './store';
 
+import theme from './styles/theme';
+
 const App: React.FC = () => {
   return (
     <SafeAreaProvider>
       <StoreProvider value={new RootStore()}>
-        <PaperProvider>
+        <PaperProvider theme={theme}>
           <RootNavigation />
         </PaperProvider>
       </StoreProvider>

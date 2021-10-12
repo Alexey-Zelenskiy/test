@@ -13,6 +13,7 @@ import RNBootSplash from 'react-native-bootsplash';
 
 // Navigators
 import HomeTabNavigator from '../HomeTabNavigator';
+import DetailScreen from '~/screens/DetailScreen/DetailScreenNew';
 // // Screens
 // import TextChatScreen from '~/screens/text-chat-screen';
 // //Components
@@ -30,11 +31,14 @@ import HomeTabNavigator from '../HomeTabNavigator';
 export type RootStackParamList = {
   Home: undefined;
   Auth: undefined;
+  RestaurantDetails: undefined
 };
 
 export type HomeTabParamList = {
   Settings: undefined;
   Restaurants: undefined;
+  Messages: undefined;
+  Events: undefined
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -58,9 +62,6 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
   //   });
   // }, [store.auth]);
 
-  // useChatMonitor();
-  // useChatManager();
-
   // if (!initialized) {
   //   return null;
   // }
@@ -72,6 +73,13 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
           <RootStack.Screen
             name="Home"
             component={HomeTabNavigator}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <RootStack.Screen
+            name="RestaurantDetails"
+            component={DetailScreen}
             options={{
               headerShown: false,
             }}

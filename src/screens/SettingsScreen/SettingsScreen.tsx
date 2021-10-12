@@ -1,18 +1,21 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
   StyleSheet,
   View,
-  Text,
   Button,
   ActivityIndicator,
   StatusBar,
   Alert,
 } from "react-native";
+import { Text } from "react-native-paper";
+import LinkedInAuthModal, { LinkedInToken } from "~/components/LinkedinAuthModal/LinkedinAuthModalModal";
+import PrimaryButton from "~/components/PrimaryButton";
 
-import LinkedInModal, { LinkedInToken } from "../../components/LinkedinModal";
+import S from './SettingsScreen.styled'
+
 
 const SettingsScreen = () => {
-  StatusBar.setHidden(true);
   const modal = React.createRef<any>();
   const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
   const [expiresIn, setExpires_in] = useState<number | undefined>(undefined);
@@ -66,16 +69,15 @@ const SettingsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.linkedInContainer}>
-        <LinkedInModal
-          ref={modal}
-          redirectUri="https://www.google.com/"
-          onSuccess={getUser}
-        />
-        <Button title="Login" onPress={() => modal.current.open()} />
-      </View>
-
-      {refreshing && <ActivityIndicator size="large" />}
+      <LinkedInAuthModal
+        ref={modal}
+        redirectUri="https://www.google.com/"
+        onSuccess={getUser}
+      />
+      <PrimaryButton onPress={() => modal.current.open()}>Login with Linkedin</PrimaryButton>
+      <S.GoogleButton onPress={() => modal.current.open()}><Text>Login with Linkedin</Text><Ionicons name='logo-google' size={30} /></S.GoogleButton>
+      <PrimaryButton onPress={() => modal.current.open()}>Login with Linkedin</PrimaryButton>
+      {/* {refreshing && <ActivityIndicator size="large" />}
 
       {localizedFirstName && (
         <>
@@ -84,7 +86,7 @@ const SettingsScreen = () => {
           </View>
           <Button title="Log Out" onPress={signOut} />
         </>
-      )}
+      )} */}
     </View>
   );
 };

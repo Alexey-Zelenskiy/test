@@ -34,25 +34,4 @@ function SearchScreen({navigation}) {
   );
 }
 
-//, { id: item.id }
-
-//{errMessage ? <Text>{errMessage}</Text> : null}
-
-const SearchStack = createNativeStackNavigator();
-
-function SearchStackScreen() {
-  return (
-    <SearchStack.Navigator screenOptions={{headerShown: true}}>
-      <SearchStack.Screen name="Restaurants" component={SearchScreen} />
-      <SearchStack.Screen name="Detail" component={DetailScreen} />
-    </SearchStack.Navigator>
-  );
-}
-
-const styles = StyleSheet.create({
-  textStyle: {
-    marginLeft: 12,
-  },
-});
-
-export default SearchStackScreen;
+export default SearchScreen;

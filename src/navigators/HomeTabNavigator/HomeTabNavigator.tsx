@@ -5,7 +5,10 @@ import { observer } from 'mobx-react-lite';
 // Navigators
 import { HomeTabParamList } from '../RootStackNavigator/RootStackNavigator';
 import SettingsScreen from '~/screens/SettingsScreen/SettingsScreen';
-import SearchStackScreen from '~/screens/SearchScreen/SearchScreen';
+import SearchScreen from '~/screens/SearchScreen/SearchScreen';
+import CustomBottomTabBar from '~/components/CustomBottomTabBar';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+
 
 // // Store
 // import {useStore} from '~/store';
@@ -27,9 +30,9 @@ const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
   // };
   return (
     <Tab.Navigator
-    // tabBar={(props) => (
-    //   <CustomBottomTabBar {...props} badgeCounts={badgeCounts} />
-    // )}
+      tabBar={(props) => (
+        <CustomBottomTabBar {...props} />
+      )}
     >
       <Tab.Screen
         name="Settings"
@@ -37,14 +40,34 @@ const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
         options={{
           headerShown: false,
           title: 'Settings',
+          tabBarIcon: (props) => <Ionicons name='md-settings' {...props} />,
         }}
       />
       <Tab.Screen
         name="Restaurants"
-        component={SearchStackScreen}
+        component={SearchScreen}
         options={{
-          title: 'Profile',
+          title: 'Restaurants',
           headerShown: false,
+          tabBarIcon: (props) => <Ionicons name="md-restaurant" {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="Messages"
+        component={SearchScreen}
+        options={{
+          title: 'Messages',
+          headerShown: false,
+          tabBarIcon: (props) => <MaterialIcons name='message' {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="Events"
+        component={SearchScreen}
+        options={{
+          title: 'Events',
+          headerShown: false,
+          tabBarIcon: (props) => <MaterialCommunityIcons name='calendar-clock' {...props} />,
         }}
       />
     </Tab.Navigator>
