@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Styles
-import S from './CustomBottomTabBar.styled';
-import theme from '~/styles/theme';
+import styles from './styles';
+import useThemeColors from '~/hooks/useThemeColors';
 
 interface CustomBottomTabBarProps extends BottomTabBarProps {
 }
@@ -16,8 +16,10 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
   navigation,
 }) => {
   const { bottom } = useSafeAreaInsets();
+  const { primary, secondary } = useThemeColors();
+
   return (
-    <S.Container style={{ paddingBottom: bottom }}>
+    <View style={{ ...styles.container, paddingBottom: bottom }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -28,7 +30,6 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
               : route.name;
 
         const isFocused = state.index === index;
-
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
@@ -49,29 +50,30 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
         };
 
         const color = isFocused
-          ? theme.colors.brandWhite
-          : theme.colors.brandDark;
+          ? primary
+          : secondary;
+
         return (
-          <S.TouchableOpacity
+          <TouchableOpacity
             key={route.key}
             accessibilityRole="button"
-            // accessibilityStates={isFocused ? ['selected'] : []}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
+            style={styles.button}
             onLongPress={onLongPress}>
             {options.tabBarIcon && (
-              <S.IconContainer>
+              <View style={styles.iconContainer}>
                 <Text>
                   {options.tabBarIcon({ focused: isFocused, color, size: 24 })}
                 </Text>
-              </S.IconContainer>
+              </View>
             )}
             <Text style={{ color }}>{label}</Text>
-          </S.TouchableOpacity>
+          </TouchableOpacity>
         );
       })}
-    </S.Container>
+    </View>
   );
 };
 

@@ -1,28 +1,22 @@
-import {DefaultTheme} from 'react-native-paper';
-
-export default {
+import {DefaultTheme, DarkTheme} from '@react-navigation/native';
+export const lightTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    // Brand colors
-    brandWhite: '#fff',
-    brandDark: '#2D3640',
-    brandGray: '#495057',
-    brandGrayLight: '#ccc',
-    brandLink: '#007bff',
-    lightText: '#fff',
-    brandRed: '#FA6772',
-    primaryRed: '#F92B6A',
+    primary: '#FC6A57',
+    secondary: '#9b9b9b',
+    text: '#333333',
+    border: '#ededed',
   },
-  shadow: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+};
+export const darkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: '#FC6A57',
+    secondary: '#ccc',
+    card: '#282828',
+    background: '#121212',
+    border: '#333333',
   },
 };

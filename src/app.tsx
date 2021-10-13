@@ -8,22 +8,42 @@
  * @format
  */
 
-import React from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { AppState, AppStateStatus, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import { Provider as PaperProvider } from 'react-native-paper';
 import RootNavigation from './navigators';
 import { RootStore, StoreProvider } from './store';
 
-import theme from './styles/theme';
+
 
 const App: React.FC = () => {
+  const appState = React.useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(
+    appState.current,
+  );
+  const scheme = useColorScheme();
+  const [currentTheme, setCurrentTheme] = useState<string>('light');
+
+  useEffect(() => {
+    AppState.addEventListener('change', _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, []);
+
+  const _handleAppStateChange = (nextAppState: AppStateStatus) => {
+    appState.current = nextAppState;
+    setAppStateVisible(appState.current);
+  };
+
+
+
   return (
     <SafeAreaProvider>
       <StoreProvider value={new RootStore()}>
-        <PaperProvider theme={theme}>
-          <RootNavigation />
-        </PaperProvider>
+        <RootNavigation />
       </StoreProvider>
     </SafeAreaProvider>
   );

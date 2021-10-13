@@ -1,22 +1,23 @@
 
 import React, { useState } from "react";
 import {
-  StyleSheet,
   View,
   Alert,
 } from "react-native";
-import { Text } from "react-native-paper";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import LinkedInAuthModal, { LinkedInToken } from "~/components/LinkedinAuthModal/LinkedinAuthModalModal";
-import S from './LoginScreen.styled'
-import GS from '~/styles';
-import theme from "~/styles/theme";
-import { useStore } from "~/store";
 import { observer } from "mobx-react-lite";
+import LinkedInAuthModal, { LinkedInToken } from "~/components/LinkedinAuthModal/LinkedinAuthModalModal";
+import GS from '~/styles';
+import { useStore } from "~/store";
+import useThemeColors from "~/hooks/useThemeColors";
+import styles from "./styles";
+import Container from "~/components/elements/Container";
+import Text from "~/components/elements/Text";
+import Button from "~/components/elements/Button";
 const CLIENT_ID = "78h43jf4e2omfl";
 const CLIENT_SECRET = "F75t096hOWyBDMnc";
 const SettingsScreen = observer(() => {
   const store = useStore()
+  const { primary } = useThemeColors();
   const modal = React.createRef<any>();
   const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
   const [expiresIn, setExpires_in] = useState<number | undefined>(undefined);
@@ -48,17 +49,50 @@ const SettingsScreen = observer(() => {
 
   return (
     <GS.SafeAreaView>
-      <GS.ScreenContent>
-        <GS.LogoContainer>
-          <GS.Logo>LT</GS.Logo>
-        </GS.LogoContainer>
-        <S.Container>
-          <S.LinkedinButton style={theme.shadow} onPress={() => modal.current.open()}>
-            <S.ButtonText>Login with Linkedin</S.ButtonText>
-            <MaterialCommunityIcons name='linkedin' size={50} />
-          </S.LinkedinButton>
-        </S.Container>
-      </GS.ScreenContent>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: primary,
+          },
+        ]}>
+        <View style={styles.appIconContainer}>
+          <Text isBold isHeadingTitle style={styles.appIconText}>
+            LT
+          </Text>
+        </View>
+        <Container style={styles.loginMethodContainer}>
+          <View style={styles.loginMethod}>
+            <Button
+              style={styles.button}
+              backgroundColor="#0e76a8"
+              isFullWidth
+              onPress={() => modal.current.open()}>
+              <Text isBold isWhite>
+                Connect with Linkedin
+              </Text>
+            </Button>
+            <Button
+              style={styles.button}
+              backgroundColor="#4267b2"
+              isFullWidth
+              onPress={() => { }}>
+              <Text isBold isWhite>
+                Connect with Facebook
+              </Text>
+            </Button>
+            <Button
+              style={styles.button}
+              backgroundColor="#4285F3"
+              isFullWidth
+              onPress={() => { }}>
+              <Text isBold isWhite>
+                Connect with Google
+              </Text>
+            </Button>
+          </View>
+        </Container>
+      </View>
       <LinkedInAuthModal
         ref={modal}
         redirectUri="https://www.google.com/"
@@ -73,50 +107,3 @@ const SettingsScreen = observer(() => {
 
 export default SettingsScreen;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  userContainer: {
-    width: "100%",
-    padding: 10,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  picture: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    resizeMode: "cover",
-    marginBottom: 15,
-  },
-  item: {
-    width: "100%",
-    flexDirection: "row",
-    marginVertical: 5,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  label: {
-    marginRight: 10,
-  },
-  value: {
-    fontWeight: "bold",
-    marginLeft: 10,
-  },
-  linkedInContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  labelContainer: {
-    alignItems: "flex-end",
-  },
-  valueContainer: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-  },
-});
