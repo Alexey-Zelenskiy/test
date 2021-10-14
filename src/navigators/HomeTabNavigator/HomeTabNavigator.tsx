@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PermissionsAndroid, Platform, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { observer } from 'mobx-react-lite';
-import Geolocation from 'react-native-geolocation-service';
+import * as Location from 'expo-location';
 import Geocoder from 'react-native-geocoding';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { HomeTabParamList } from '../RootStackNavigator/RootStackNavigator';
@@ -11,7 +11,6 @@ import ExploreScreen from '~/screens/ExploreScreen/ExploreScreen';
 import CustomBottomTabBar from '~/components/CustomBottomTabBar';
 
 import styles from './styles'
-Geocoder.init("AIzaSyBpBzITIQju0qHPexEo6IVKI10TNoC1nvM", { language: 'en' });
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
@@ -19,22 +18,17 @@ interface HomeTabNavigatorProps { }
 
 const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
 
-  const [currentLocation, setCurrentLocation] = useState<string>('');
+  const [currentLocation, setCurrentLocation] = useState<any>(undefined);
 
-  const _initUserLocation = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
+  const _initUserLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    let result = await Location.reverseGeocodeAsync(location.coords);
+    setCurrentLocation(`${result[0].city}, ${result[0].street}`)
 
-        const { longitude, latitude } = position.coords;
-        Geocoder.from(position.coords.latitude, position.coords.longitude).then(json => {
-          setCurrentLocation(`${json.results[0].address_components}`)
-        }).catch(error => console.warn(error));
-      },
-      (error) => {
-        console.log(error.code, error.message);
-      },
-      { timeout: 15000, maximumAge: 10000 },
-    );
   };
 
   useEffect(() => {

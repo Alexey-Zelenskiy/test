@@ -76,7 +76,7 @@ const SettingsScreen = observer(() => {
               style={styles.button}
               backgroundColor="#4267b2"
               isFullWidth
-              onPress={() => { }}>
+              onPress={() => { store.auth.setUser('s') }}>
               <Text isBold isWhite>
                 Connect with Facebook
               </Text>
@@ -85,7 +85,7 @@ const SettingsScreen = observer(() => {
               style={styles.button}
               backgroundColor="#4285F3"
               isFullWidth
-              onPress={() => { }}>
+              onPress={() => { store.auth.setUser('s') }}>
               <Text isBold isWhite>
                 Connect with Google
               </Text>

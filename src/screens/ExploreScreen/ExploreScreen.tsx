@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, InteractionManager } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RestaurantList from '../../components/RestaurantList';
@@ -23,7 +23,7 @@ const ExploreScreen = ({ navigation }: any) => {
   ] = useState<boolean>(false);
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       const task = InteractionManager.runAfterInteractions(() => {
         setIsNavigationTransitionFinished(true);
       });
