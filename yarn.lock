@@ -8816,6 +8816,11 @@ react-native-device-info@^7.0.2:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-7.4.0.tgz#694deddfc6de0ff7268ff463d84693ee980c683c"
   integrity sha512-n5mrUuwUcPXAspLZcAOE+Q087yq+Gfvo8+soZIg1l7rUZUrLNWlFxFgOo/DMPNZA5vcBSv1TSGFFdiAZVHalLw==
 
+react-native-geolocation-service@^5.3.0-beta.3:
+  version "5.3.0-beta.3"
+  resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-5.3.0-beta.3.tgz#6afd291e886ecb5fdf8c096ea0a694ccb0975330"
+  integrity sha512-TRIrkD1CV6yAOUNAqFsHiYuTyzBXJ8bttk84r4dCSKLJbYzKkvGyKoqtIIydAVlHRyZhU6u6U4Uz1bkdXPlT3g==
+
 react-native-gesture-handler@~1.10.2:
   version "1.10.3"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz#942bbf2963bbf49fa79593600ee9d7b5dab3cfc0"
@@ -8866,6 +8871,13 @@ react-native-picker-select@^8.0.0:
   dependencies:
     "@react-native-picker/picker" "^1.8.3"
     lodash.isequal "^4.5.0"
+
+react-native-ratings@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-8.1.0.tgz#3fa9ad29128dc3a88e59518ba151e61c59dd0647"
+  integrity sha512-+QOJ4G3NjVkI1D+tk4EGx1dCvVfbD2nQdkrj9cXrcAoEiwmbep4z4bZbCKmWMpQ5h2dqbxABU8/eBnbDmvAc3g==
+  dependencies:
+    lodash "^4.17.15"
 
 react-native-reanimated@~2.2.0:
   version "2.2.2"

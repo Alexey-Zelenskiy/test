@@ -11,7 +11,6 @@
 import React, { useEffect, useState } from 'react';
 import { AppState, AppStateStatus, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Provider as PaperProvider } from 'react-native-paper';
 import RootNavigation from './navigators';
 import { RootStore, StoreProvider } from './store';
 

@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { FlatList, FlatListProps, ListRenderItem } from 'react-native';
+import { FlatList, FlatListProps } from 'react-native';
 import useThemeColors from '~/hooks/useThemeColors';
 import Divider from '../Divider';
-import ListRowItem, { ListRowItemProps } from './ListRowItem';
 import styles from './styles';
 
 interface OwnProps {
-  data: ListRowItemProps[];
+  data: any[];
 }
 
 type ListProps = OwnProps & Partial<FlatListProps<any>>;
@@ -14,9 +13,7 @@ type ListProps = OwnProps & Partial<FlatListProps<any>>;
 const List: React.FC<ListProps> = ({ data, renderItem, ...rest }) => {
   const { card } = useThemeColors();
 
-  const _renderDefaultItem: ListRenderItem<ListRowItemProps> = ({ item }) => {
-    return <ListRowItem {...item} />;
-  };
+
 
   return (
     <FlatList
@@ -30,7 +27,7 @@ const List: React.FC<ListProps> = ({ data, renderItem, ...rest }) => {
         styles.contentContainer,
       ]}
       ItemSeparatorComponent={Divider}
-      renderItem={renderItem || _renderDefaultItem}
+      renderItem={renderItem}
     />
   );
 };
