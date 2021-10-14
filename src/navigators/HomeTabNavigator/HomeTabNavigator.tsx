@@ -3,6 +3,7 @@ import { PermissionsAndroid, Platform, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { observer } from 'mobx-react-lite';
 import Geolocation from 'react-native-geolocation-service';
+import Geocoder from 'react-native-geocoding';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { HomeTabParamList } from '../RootStackNavigator/RootStackNavigator';
 import SettingsScreen from '~/screens/SettingsScreen/SettingsScreen';
@@ -10,7 +11,7 @@ import ExploreScreen from '~/screens/ExploreScreen/ExploreScreen';
 import CustomBottomTabBar from '~/components/CustomBottomTabBar';
 
 import styles from './styles'
-
+Geocoder.init("AIzaSyBpBzITIQju0qHPexEo6IVKI10TNoC1nvM", { language: 'en' });
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
@@ -18,25 +19,16 @@ interface HomeTabNavigatorProps { }
 
 const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
 
-  const [currentLocation, setCurrentLocation] = useState<any>({
-    longitude: 0,
-    latitude: 0,
-    longitudeDelta: 0.0022,
-    latitudeDelta: 0.0031,
-  });
+  const [currentLocation, setCurrentLocation] = useState<string>('');
 
   const _initUserLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
-        console.log(position)
+
         const { longitude, latitude } = position.coords;
-        setCurrentLocation((location: any) => {
-          return {
-            ...location,
-            longitude,
-            latitude,
-          };
-        });
+        Geocoder.from(position.coords.latitude, position.coords.longitude).then(json => {
+          setCurrentLocation(`${json.results[0].address_components}`)
+        }).catch(error => console.warn(error));
       },
       (error) => {
         console.log(error.code, error.message);
@@ -82,7 +74,7 @@ const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
           style={styles.locationIcon}
           isPrimary
         />
-        <Text style={styles.headerTitle}>588 Blanda Square - Virginia</Text>
+        <Text style={styles.headerTitle}>{currentLocation}</Text>
       </View>
     );
   };

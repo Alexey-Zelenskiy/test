@@ -38,10 +38,11 @@ const RestaurantsCardInfo: React.FC<Props> = ({
           icon={<MaterialCommunityIcons color={primary} name='map-marker' size={10} />}>
           <Text isPrimary style={styles.buttonText}>{`${location?.city}`}</Text>
           <Text isPrimary style={styles.buttonText}>{`${location?.address1}`}</Text>
+          <Text isPrimary style={styles.buttonText}>{`${location?.address2}`}</Text>
         </Button>
-        <Text isPrimary style={styles.buttonText}>{`${review_count} reviews`}</Text>
+        {/* <Text isPrimary style={styles.buttonText}>{`${review_count} reviews`}</Text>
         <Text isPrimary style={styles.buttonText}>{`${price}`}</Text>
-        <Text isPrimary style={styles.buttonText}>{`${phone}`}</Text>
+        <Text isPrimary style={styles.buttonText}>{`${phone}`}</Text> */}
       </View>
     </View>
   );

@@ -8809,6 +8809,11 @@ react-native-device-info@^7.0.2:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-7.4.0.tgz#694deddfc6de0ff7268ff463d84693ee980c683c"
   integrity sha512-n5mrUuwUcPXAspLZcAOE+Q087yq+Gfvo8+soZIg1l7rUZUrLNWlFxFgOo/DMPNZA5vcBSv1TSGFFdiAZVHalLw==
 
+react-native-geocoding@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-geocoding/-/react-native-geocoding-0.5.0.tgz#69748f896047a63d1c3c1d55255f9d67c8e275c2"
+  integrity sha512-peTXRpRxPLiZpbTW43AOvoXXAEoS+eLnSo4KRY0hcL9F2hulWE5r7o5KiaLx8AWj35c6EJP3fdGHe754q2Gd2Q==
+
 react-native-geolocation-service@^5.3.0-beta.3:
   version "5.3.0-beta.3"
   resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-5.3.0-beta.3.tgz#6afd291e886ecb5fdf8c096ea0a694ccb0975330"
