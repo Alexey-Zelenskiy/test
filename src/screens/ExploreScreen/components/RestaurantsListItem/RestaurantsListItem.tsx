@@ -24,7 +24,7 @@ const RestaurantsListItem: React.FC<Props> = ({ item }) => {
   return (
     <Touchable onPress={_onPlaceItemPressed}>
       <Container style={styles.container}>
-        <Image style={styles.image} source={image_url as ImageSourcePropType} />
+        <Image style={styles.image} source={{ uri: image_url }} />
         <View style={styles.placeInfoContainer}>
           <View style={styles.placeInfo}>
             <Text style={styles.placeTitle}>{name}</Text>
