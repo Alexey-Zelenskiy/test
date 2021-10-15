@@ -88,7 +88,7 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
           store.common.setLoading(false)
         })
       }
-  }, [store, store.auth.userLocation]);
+  }, [store, store.auth.userLocation, store.auth.isSignedIn]);
 
 
   // useEffect(() => {
