@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import { observer } from 'mobx-react-lite';
+import * as Location from 'expo-location';
 import {
   NavigationContainer,
   NavigationContainerRef,
@@ -61,6 +62,33 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
       : {
         ...TransitionPresets.FadeFromBottomAndroid,
       };
+
+  const initUserLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return;
+    }
+    const location = await Location.getCurrentPositionAsync({});
+    const { coords } = location
+    const { latitude, longitude } = coords
+    const result = await Location.reverseGeocodeAsync(coords);
+    store.auth.setUserLocation({ latitude: latitude, longitude: longitude, location: `${result[0].city}, ${result[0].street}` })
+
+  };
+
+  useEffect(() => {
+    if (store.auth.isSignedIn) {
+      store.common.setLoading(true)
+      initUserLocation().then(() => {
+        if (store.auth.userLocation)
+          store.restaurants.fetchRestaurants(store.auth.userLocation).then(() => {
+            store.common.setLoading(false)
+          })
+      })
+    }
+  }, [store, store.auth.isSignedIn, store.auth.userLocation]);
+
+
   // useEffect(() => {
   //   RNBootSplash.show();
   //   store.auth.signInWithSavedToken().then(() => {

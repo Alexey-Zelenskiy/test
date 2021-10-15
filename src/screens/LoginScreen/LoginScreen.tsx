@@ -62,13 +62,16 @@ const SettingsScreen = observer(() => {
           </Text>
         </View>
         <Container style={styles.loginMethodContainer}>
+          <Text isBold isWhite>
+            By continuing you agree to our Terms of Service and Privacy Policy
+          </Text>
           <View style={styles.loginMethod}>
             <Button
               style={styles.button}
               backgroundColor="#0e76a8"
               isFullWidth
               onPress={() => modal.current.open()}>
-              <Text isBold isWhite>
+              <Text isBold isWhite style={styles.buttonText}>
                 Connect with Linkedin
               </Text>
             </Button>
@@ -77,7 +80,7 @@ const SettingsScreen = observer(() => {
               backgroundColor="#4267b2"
               isFullWidth
               onPress={() => { store.auth.setUser('s') }}>
-              <Text isBold isWhite>
+              <Text isBold isWhite style={styles.buttonText}>
                 Connect with Facebook
               </Text>
             </Button>
@@ -86,7 +89,7 @@ const SettingsScreen = observer(() => {
               backgroundColor="#4285F3"
               isFullWidth
               onPress={() => { store.auth.setUser('s') }}>
-              <Text isBold isWhite>
+              <Text isBold isWhite style={styles.buttonText}>
                 Connect with Google
               </Text>
             </Button>

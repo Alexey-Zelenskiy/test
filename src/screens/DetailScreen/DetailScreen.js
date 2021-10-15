@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Image, ScrollView } from 'react-native';
 import Constants from 'expo-constants'
-import yelp from '../../api/yelp';
+import yelp from '../../api/yelpApi';
 const DetailScreen = ( { route }) => {
   const { id } = route.params;
   const [details, setDetails] = useState(null);

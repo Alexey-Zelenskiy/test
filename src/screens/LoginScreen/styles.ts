@@ -32,4 +32,7 @@ export default StyleSheet.create({
   button: {
     marginTop: 10,
   },
+  buttonText: {
+    fontSize: 16,
+  },
 });

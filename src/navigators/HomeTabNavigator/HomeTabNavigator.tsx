@@ -3,7 +3,6 @@ import { PermissionsAndroid, Platform, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { observer } from 'mobx-react-lite';
 import * as Location from 'expo-location';
-import Geocoder from 'react-native-geocoding';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { HomeTabParamList } from '../RootStackNavigator/RootStackNavigator';
 import SettingsScreen from '~/screens/SettingsScreen/SettingsScreen';
@@ -12,52 +11,17 @@ import CustomBottomTabBar from '~/components/CustomBottomTabBar';
 
 import styles from './styles'
 
+import { useStore } from '~/store';
+
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 interface HomeTabNavigatorProps { }
 
 const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
 
-  const [currentLocation, setCurrentLocation] = useState<any>(undefined);
+  const store = useStore()
 
-  const _initUserLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      return;
-    }
-    let location = await Location.getCurrentPositionAsync({});
-    let result = await Location.reverseGeocodeAsync(location.coords);
-    setCurrentLocation(`${result[0].city}, ${result[0].street}`)
-
-  };
-
-  useEffect(() => {
-    const requestAndroidLocationPermission = async () => {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Lunch Timing App Permission',
-          message:
-            'Lunch Timing App needs access to your location ' +
-            'so you see where you are on the map.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        _initUserLocation();
-      } else {
-        console.log('Location permission denied');
-      }
-    };
-
-    if (Platform.OS === 'android') {
-      requestAndroidLocationPermission();
-    } else {
-      _initUserLocation();
-    }
-  }, []);
+  const { auth: { userLocation } } = store
 
   const renderExploreHeaderTitle = () => {
     return (
@@ -68,7 +32,7 @@ const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
           style={styles.locationIcon}
           isPrimary
         />
-        <Text style={styles.headerTitle}>{currentLocation}</Text>
+        <Text style={styles.headerTitle}>{userLocation?.location}</Text>
       </View>
     );
   };

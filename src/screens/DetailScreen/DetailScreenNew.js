@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Constants from 'expo-constants';
-import yelp from '../../api/yelp';
+import yelp from '../../api/yelpApi';
 
 function DetailScreen({route}) {
   const {id} = route.params;

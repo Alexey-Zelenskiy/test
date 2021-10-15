@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import yelp from '../api/yelp';
+import yelp from '../api/yelpApi';
 //custom hook
 export default () => {
   const [restaurants, setRestaurants] = useState([]);

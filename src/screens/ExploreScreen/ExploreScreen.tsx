@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, InteractionManager } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RestaurantList from '../../components/RestaurantList';
@@ -13,10 +13,15 @@ import SearchBar from '~/components/elements/SearchBar';
 import LoadingIndicator from '~/components/elements/LoadingIndicator';
 import RestaurantsList from './components/RestaurantsList';
 import { IData } from './components/RestaurantsList/RestaurantsList';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '~/store';
 
 interface Props { }
 
-const ExploreScreen = ({ navigation }: any) => {
+const ExploreScreen = observer(({ navigation }: any) => {
+
+  const store = useStore()
+
   const [
     isNavigationTransitionFinished,
     setIsNavigationTransitionFinished,
@@ -44,7 +49,7 @@ const ExploreScreen = ({ navigation }: any) => {
         ) : (
           <LoadingIndicator size="large" />
         )}
-        <RestaurantsList data={restaurants as IData[]} />
+        <RestaurantsList data={store.restaurants.restaurantsList as IData[]} />
         {/* <FlatList
           data={restaurants as []}
           keyExtractor={(restaurant) => restaurant.id}
@@ -61,5 +66,6 @@ const ExploreScreen = ({ navigation }: any) => {
     </GS.SafeAreaView>
   );
 }
+)
 
 export default ExploreScreen;
