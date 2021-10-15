@@ -81,12 +81,13 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
   }, []);
 
   useEffect(() => {
-    if (store.auth.userLocation) {
-      store.common.setLoading(true)
-      store.restaurants.fetchRestaurants(store.auth.userLocation).then(() => {
-        store.common.setLoading(false)
-      })
-    }
+    if (store.auth.isSignedIn)
+      if (store.auth.userLocation) {
+        store.common.setLoading(true)
+        store.restaurants.fetchRestaurants(store.auth.userLocation).then(() => {
+          store.common.setLoading(false)
+        })
+      }
   }, [store, store.auth.userLocation]);
 
 
