@@ -93,6 +93,8 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
   //   return null;
   // }
 
+  console.log(store.auth.isSignedIn)
+
   return (
     <>
       <NavigationContainer ref={navigatorRef} theme={theme === 'light' ? lightTheme : darkTheme}>
