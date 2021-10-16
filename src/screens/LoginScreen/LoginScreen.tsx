@@ -62,7 +62,7 @@ const SettingsScreen = observer(() => {
           </Text>
         </View>
         <Container style={styles.loginMethodContainer}>
-          <Text isBold isWhite>
+          <Text isBold style={styles.conditionsText}>
             By continuing you agree to our Terms of Service and Privacy Policy
           </Text>
           <View style={styles.loginMethod}>

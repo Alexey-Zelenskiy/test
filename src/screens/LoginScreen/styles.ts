@@ -35,4 +35,7 @@ export default StyleSheet.create({
   buttonText: {
     fontSize: 16,
   },
+  conditionsText: {
+    textAlign: 'center',
+  },
 });
