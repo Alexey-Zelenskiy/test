@@ -51,7 +51,7 @@ const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
         <CustomBottomTabBar {...props} />
       )}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Settings"
         component={SettingsScreen}
         options={{
@@ -59,7 +59,7 @@ const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
           title: 'Settings',
           tabBarIcon: (props) => <Ionicons name='md-settings' {...props} />,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Restaurants"
         component={ExploreScreen}

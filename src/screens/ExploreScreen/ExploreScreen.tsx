@@ -27,14 +27,14 @@ const ExploreScreen = observer(({ navigation }: any) => {
     setIsNavigationTransitionFinished,
   ] = useState<boolean>(false);
 
-  useFocusEffect(
-    useCallback(() => {
-      const task = InteractionManager.runAfterInteractions(() => {
-        setIsNavigationTransitionFinished(true);
-      });
-      return () => task.cancel();
-    }, []),
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     const task = InteractionManager.runAfterInteractions(() => {
+  //       setIsNavigationTransitionFinished(true);
+  //     });
+  //     return () => task.cancel();
+  //   }, []),
+  // );
   const [term, setTerm] = useState('');
   const [searchApi, restaurants, errMessage] = useRestaurants();
 
