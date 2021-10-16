@@ -77,15 +77,22 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
   };
 
   useEffect(() => {
-    if (store.auth.isSignedIn)
+    if (store.auth.isSignedIn) {
+      initUserLocation()
+    }
+  }, []);
+
+  useEffect(() => {
+    if (store.auth.userLocation) {
+      store.common.setLoading(true)
       initUserLocation().then(() => {
-        store.common.setLoading(true)
         if (store.auth.userLocation)
           store.restaurants.fetchRestaurants(store.auth.userLocation).then(() => {
             store.common.setLoading(false)
           })
       })
-  }, [store, store.auth.userLocation, store.auth.isSignedIn]);
+    }
+  }, [store, store.auth.userLocation]);
 
 
   // useEffect(() => {
