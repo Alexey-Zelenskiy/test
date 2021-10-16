@@ -72,22 +72,14 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
     const { coords } = location
     const { latitude, longitude } = coords
     const result = await Location.reverseGeocodeAsync(coords);
-    store.auth.setUserLocation({ latitude: latitude, longitude: longitude, location: `${result[0].city}, ${result[0].street}` })
-
+    if (result) {
+      store.auth.setUserLocation({ latitude: latitude, longitude: longitude, location: `${result[0].city}, ${result[0].street}` })
+    }
   };
 
   useEffect(() => {
-    if (store.auth.isSignedIn) {
-      store.common.setLoading(true)
-      initUserLocation().then(() => {
-        if (store.auth.userLocation)
-          store.restaurants.fetchRestaurants(store.auth.userLocation).then(() => {
-            store.common.setLoading(false)
-          })
-      })
-    }
-  }, [store, store.auth.isSignedIn, store.auth.userLocation]);
-
+    initUserLocation()
+  }, [])
 
   // useEffect(() => {
   //   RNBootSplash.show();

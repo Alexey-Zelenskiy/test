@@ -23,6 +23,14 @@ const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
 
   const { auth: { userLocation } } = store
 
+  useEffect(() => {
+    store.common.setLoading(true)
+    if (store.auth.userLocation)
+      store.restaurants.fetchRestaurants(store.auth.userLocation).then(() => {
+        store.common.setLoading(false)
+      })
+  }, [store, store.auth.isSignedIn, store.auth.userLocation]);
+
   const renderExploreHeaderTitle = () => {
     return (
       <View style={styles.headerLeftContainer}>
