@@ -1,11 +1,11 @@
 import {makeAutoObservable} from 'mobx';
-import {fetchRestaurants} from '~/api/yelpApi';
-import RestaurantsService from '~/services/restaurantsService';
+import {fetchRestaurants, fetchRestaurantById} from '~/api/yelpApi';
 import {IUserLocation} from './authStore';
 
 class RestaurantsStore {
-  restaurantsService: RestaurantsService = new RestaurantsService();
   restaurantsList: any[] | undefined = undefined;
+  restaurantDetails: any | undefined = undefined;
+  isLoading: boolean = false;
   constructor() {
     makeAutoObservable(this);
   }
@@ -16,21 +16,44 @@ class RestaurantsStore {
     sortBy?: string,
   ) {
     try {
-      const restaurantsList: {businesses: any[]} =
-        await this.restaurantsService.fetchRestaurants(
-          location,
-          radius,
-          sortBy,
-        );
+      this.setLoading(true);
+      const restaurantsList: {businesses: any[]} = await fetchRestaurants(
+        location,
+        radius,
+        sortBy,
+      );
       if (restaurantsList) {
         this.setRestaurants(restaurantsList?.businesses);
+        this.setLoading(false);
       }
     } catch (err) {
-      return false;
+      return;
     }
   }
+
   setRestaurants(restaurantsList: any[]) {
     this.restaurantsList = restaurantsList;
+  }
+
+  async fetchRestaurantById(id: string) {
+    try {
+      this.setLoading(true);
+      const restaurantDetails = await fetchRestaurantById(id);
+      if (restaurantDetails) {
+        this.setRestaurantsDetails(restaurantDetails);
+        this.setLoading(false);
+      }
+    } catch (err) {
+      return;
+    }
+  }
+
+  setRestaurantsDetails(restaurantDetails: any) {
+    this.restaurantDetails = restaurantDetails;
+  }
+
+  setLoading(value: boolean) {
+    this.isLoading = value;
   }
 }
 

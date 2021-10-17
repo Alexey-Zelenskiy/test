@@ -15,10 +15,10 @@ import RestaurantsList from './components/RestaurantsList';
 import { IData } from './components/RestaurantsList/RestaurantsList';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '~/store';
+import { ExploreScreenProps } from '~/navigators/RootStackNavigator/RootStackNavigator';
 
-interface Props { }
 
-const ExploreScreen = observer(({ navigation }: any) => {
+const ExploreScreen: React.FC<ExploreScreenProps> = observer(({ navigation }) => {
 
   const store = useStore()
 
@@ -27,16 +27,24 @@ const ExploreScreen = observer(({ navigation }: any) => {
     setIsNavigationTransitionFinished,
   ] = useState<boolean>(false);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     const task = InteractionManager.runAfterInteractions(() => {
-  //       setIsNavigationTransitionFinished(true);
-  //     });
-  //     return () => task.cancel();
-  //   }, []),
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      const task = InteractionManager.runAfterInteractions(() => {
+        setIsNavigationTransitionFinished(true);
+      });
+      return () => task.cancel();
+    }, []),
+  );
+
   const [term, setTerm] = useState('');
   const [searchApi, restaurants, errMessage] = useRestaurants();
+
+  useEffect(() => {
+    store.restaurants.setLoading(true)
+    if (store.auth.userLocation)
+      store.restaurants.fetchRestaurants(store.auth.userLocation)
+  }, [store, store.auth.isSignedIn, store.auth.userLocation]);
+
 
   return (
     <GS.SafeAreaView>

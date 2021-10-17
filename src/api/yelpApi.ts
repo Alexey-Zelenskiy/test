@@ -27,3 +27,13 @@ export function fetchRestaurants(
     })
     .then((res) => res.data);
 }
+
+export function fetchRestaurantById(id: string) {
+  return axios
+    .get(`${BASE_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+    })
+    .then((res) => res.data);
+}

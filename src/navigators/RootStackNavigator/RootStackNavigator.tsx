@@ -14,17 +14,17 @@ import {
 } from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
 import HomeTabNavigator from '../HomeTabNavigator';
-import DetailScreen from '~/screens/DetailScreen/DetailScreenNew';
 import { useStore } from '~/store';
 import AuthStackNavigator from '../AuthStackNavigator';
 import LoadingIndicator from '~/components/elements/LoadingIndicator';
 import { lightTheme, darkTheme } from '~/styles/theme';
+import RestaurantDetails from '~/screens/RestaurantDetails';
 
 
 // Types
 export type RootStackParamList = {
   Home: undefined;
-  RestaurantDetails: undefined
+  RestaurantDetails: { id: string };
 };
 
 export type HomeTabParamList = {
@@ -39,6 +39,36 @@ export type AuthStackParamList = {
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
+
+export type ExploreStackParamList = {
+  Restaurants: undefined;
+  RestaurantDetails: { id: string };
+};
+
+type ExploreScreenRouteProp = RouteProp<ExploreStackParamList, 'Restaurants'>;
+
+export type ExploreScreenNavigationProp = StackNavigationProp<
+  ExploreStackParamList,
+  'Restaurants'
+>;
+
+export type ExploreScreenProps = {
+  route: ExploreScreenRouteProp;
+  navigation: ExploreScreenNavigationProp;
+};
+
+
+type RestaurantDetailsScreenRouteProp = RouteProp<ExploreStackParamList, 'RestaurantDetails'>;
+
+type RestaurantDetailsScreenRoutePropScreenNavigationProp = StackNavigationProp<
+  ExploreStackParamList,
+  'RestaurantDetails'
+>;
+
+export type RestaurantDetailsScreenProps = {
+  route: RestaurantDetailsScreenRouteProp;
+  navigation: RestaurantDetailsScreenRoutePropScreenNavigationProp;
+};
 
 interface RootStackNavigatorProps { }
 
@@ -116,9 +146,11 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
               />
               <RootStack.Screen
                 name="RestaurantDetails"
-                component={DetailScreen}
+                component={RestaurantDetails}
                 options={{
-                  headerShown: false,
+                  headerShown: true,
+                  headerTitle: '',
+                  headerBackTitle: '',
                 }}
               />
             </RootStack.Navigator>)
@@ -127,7 +159,7 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
             )}
         </View>
       </NavigationContainer>
-      {store.common.isLoading && <LoadingIndicator />}
+      {store.common.isLoading || store.restaurants.isLoading && <LoadingIndicator />}
     </>
   );
 });

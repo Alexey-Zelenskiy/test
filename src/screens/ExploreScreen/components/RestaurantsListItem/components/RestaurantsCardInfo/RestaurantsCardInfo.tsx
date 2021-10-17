@@ -10,7 +10,7 @@ import Rating from '~/components/elements/Rating';
 import { IData } from '../../../RestaurantsList/RestaurantsList';
 
 interface Props {
-  item: IData;
+  item: any;
   ratingStarBackgroundColor?: string;
 };
 

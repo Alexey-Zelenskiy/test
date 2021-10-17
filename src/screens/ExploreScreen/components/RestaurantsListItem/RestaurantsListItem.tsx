@@ -6,6 +6,7 @@ import Touchable from '~/components/elements/Touchable';
 import styles from './styles';
 import RestaurantsCardInfo from './components/RestaurantsCardInfo';
 import { IData } from '../RestaurantsList/RestaurantsList';
+import { ExploreScreenNavigationProp } from '~/navigators/RootStackNavigator/RootStackNavigator';
 
 
 
@@ -14,15 +15,15 @@ interface Props {
 };
 
 const RestaurantsListItem: React.FC<Props> = ({ item }) => {
-  const { image_url, name } = item;
-  const navigation = useNavigation();
+  const { image_url, name, id } = item;
+  const navigation = useNavigation<ExploreScreenNavigationProp>();
 
-  const _onPlaceItemPressed = () => {
-    // navigation.navigate('PlaceDetailsScreen');
+  const onItemPressed = () => {
+    navigation.navigate("RestaurantDetails", { id: id });
   };
 
   return (
-    <Touchable onPress={_onPlaceItemPressed}>
+    <Touchable onPress={onItemPressed}>
       <Container style={styles.container}>
         <Image style={styles.image} source={{ uri: image_url }} />
         <View style={styles.placeInfoContainer}>
