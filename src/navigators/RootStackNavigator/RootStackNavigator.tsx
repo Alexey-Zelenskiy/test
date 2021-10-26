@@ -3,9 +3,11 @@ import { Platform, StatusBar, View } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import * as Location from 'expo-location';
 import {
+  DrawerActions,
   NavigationContainer,
   NavigationContainerRef,
   RouteProp,
+  useNavigation,
 } from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -19,16 +21,18 @@ import AuthStackNavigator from '../AuthStackNavigator';
 import LoadingIndicator from '~/components/elements/LoadingIndicator';
 import { lightTheme, darkTheme } from '~/styles/theme';
 import RestaurantDetails from '~/screens/RestaurantDetails';
+import DrawerNavigator from '../DrawerNavigator/DrawerNavigator';
+;
 
 
 // Types
 export type RootStackParamList = {
   Home: undefined;
   RestaurantDetails: { id: string };
+  Settings: undefined;
 };
 
 export type HomeTabParamList = {
-  Settings: undefined;
   Restaurants: undefined;
   Messages: undefined;
   Events: undefined
@@ -80,6 +84,9 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
   const navigate = useCallback((name: string, params?: any) => {
     navigatorRef.current?.navigate(name, params);
   }, []);
+  const onOpenDrawer = () => {
+    navigatorRef.current?.dispatch(DrawerActions.openDrawer())
+  }
   const rootContainerBackgroundColor =
     theme === 'light'
       ? lightTheme.colors.background
@@ -125,7 +132,7 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
 
   return (
     <>
-      <NavigationContainer ref={navigatorRef} theme={theme === 'light' ? lightTheme : darkTheme}>
+      <NavigationContainer ref={navigatorRef} theme={theme === 'light' ? lightTheme : darkTheme} >
         <View style={{ flex: 1, backgroundColor: rootContainerBackgroundColor }}>
           <StatusBar
             backgroundColor={
@@ -139,7 +146,7 @@ const RootStackNavigator: React.FC<RootStackNavigatorProps> = observer(() => {
             <RootStack.Navigator screenOptions={screenOptions}>
               <RootStack.Screen
                 name="Home"
-                component={HomeTabNavigator}
+                component={DrawerNavigator}
                 options={{
                   headerShown: false,
                 }}

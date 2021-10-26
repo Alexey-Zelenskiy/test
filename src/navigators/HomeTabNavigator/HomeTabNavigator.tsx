@@ -12,6 +12,7 @@ import CustomBottomTabBar from '~/components/CustomBottomTabBar';
 import styles from './styles'
 
 import { useStore } from '~/store';
+import { DrawerActions } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
@@ -42,6 +43,11 @@ const HomeTabNavigator: React.FC<HomeTabNavigatorProps> = observer(() => {
       tabBar={(props) => (
         <CustomBottomTabBar {...props} />
       )}
+      screenOptions={({ route, navigation }) => ({
+        headerRight: ({ }) => {
+          return <Ionicons name="settings" size={25} onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+        }
+      })}
     >
       {/* <Tab.Screen
         name="Settings"
