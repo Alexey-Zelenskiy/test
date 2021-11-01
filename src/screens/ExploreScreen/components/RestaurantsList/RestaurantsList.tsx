@@ -26,19 +26,22 @@ export interface IData {
     address1?: string;
     zip_code?: string;
   }
+  isFavorited?: boolean
 }
 
 interface Props {
   data: IData[]
+  favoritedRestaurant: (id: string) => void;
 };
 
-const RestaurantsList: React.FC<Props> = ({ data }) => {
+const RestaurantsList: React.FC<Props> = ({ data, favoritedRestaurant }) => {
+
   return (
     <Container style={styles.root}>
       <List
         data={data}
         renderItem={({ item }) => {
-          return <RestaurantsListItem key={item.id} item={item} />;
+          return <RestaurantsListItem key={item.id} item={item} favoritedRestaurant={favoritedRestaurant} />;
         }}
       />
     </Container>

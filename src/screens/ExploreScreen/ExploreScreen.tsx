@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, InteractionManager } from 'react-native';
+import { View, StyleSheet, ScrollView, InteractionManager } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RestaurantList from '../../components/RestaurantList';
 import useRestaurants from '../../hooks/useRestaurants';
@@ -16,6 +16,8 @@ import { IData } from './components/RestaurantsList/RestaurantsList';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '~/store';
 import { ExploreScreenProps } from '~/navigators/RootStackNavigator/RootStackNavigator';
+import Text from '~/components/elements/Text';
+import Section from '~/components/elements/Section';
 
 
 const ExploreScreen: React.FC<ExploreScreenProps> = observer(({ navigation }) => {
@@ -57,7 +59,15 @@ const ExploreScreen: React.FC<ExploreScreenProps> = observer(({ navigation }) =>
         ) : (
           <LoadingIndicator size="large" />
         )}
-        <RestaurantsList data={store.restaurants.restaurantsList as IData[]} />
+        {store.restaurants.favoritedList.length > 0 && <>
+          <Section
+            title="Favorited"
+            divider
+          >
+            <RestaurantsList data={store.restaurants.favoritedList as IData[]} favoritedRestaurant={store.restaurants.favoritedRestaurant} />
+          </Section>
+        </>}
+        <RestaurantsList data={store.restaurants.restaurantsList as IData[]} favoritedRestaurant={store.restaurants.favoritedRestaurant} />
         {/* <FlatList
           data={restaurants as []}
           keyExtractor={(restaurant) => restaurant.id}

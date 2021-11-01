@@ -15,4 +15,8 @@ export default StyleSheet.create({
   actionButtonText: {
     fontSize: 14,
   },
+  divider: {
+    height: 5,
+    backgroundColor: 'black',
+  },
 });

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import Button from '../Button';
+import Divider from '../Divider';
 import Text from '../Text';
 import styles from './styles';
 
@@ -9,6 +10,7 @@ interface SectionProps {
   title?: string;
   actionButtonText?: string;
   onButtonActionPressed?: () => void;
+  divider?: boolean
 }
 
 const Section: React.FC<SectionProps> = ({
@@ -16,6 +18,7 @@ const Section: React.FC<SectionProps> = ({
   title,
   actionButtonText,
   onButtonActionPressed,
+  divider
 }) => {
   const _onButtonActionPressed = () => {
     if (onButtonActionPressed) {
@@ -36,6 +39,7 @@ const Section: React.FC<SectionProps> = ({
         )}
       </View>
       {children}
+      {divider && <Divider style={styles.divider} />}
     </View>
   );
 };

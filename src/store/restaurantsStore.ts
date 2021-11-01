@@ -4,6 +4,7 @@ import {IUserLocation} from './authStore';
 
 class RestaurantsStore {
   restaurantsList: any[] | undefined = undefined;
+  favoritedList: any[] = [];
   restaurantDetails: any | undefined = undefined;
   isLoading: boolean = false;
   constructor() {
@@ -33,6 +34,30 @@ class RestaurantsStore {
 
   setRestaurants(restaurantsList: any[]) {
     this.restaurantsList = restaurantsList;
+  }
+
+  favoritedRestaurant = (id: string) => {
+    const updateData = this.restaurantsList?.map((item) => {
+      const isFavorited =
+        item.isFavorited === undefined ? true : !item.isFavorited;
+      if (item.id === id) {
+        return {
+          ...item,
+          isFavorited: isFavorited,
+        };
+      } else {
+        return item;
+      }
+    });
+    if (updateData) this.setRestaurants(updateData);
+    const favoritedData = this.restaurantsList?.filter(
+      (item) => item.isFavorited === true,
+    );
+    if (favoritedData) this.setFavorited(favoritedData);
+  };
+
+  setFavorited(favoritedList: any[]) {
+    this.favoritedList = favoritedList;
   }
 
   async fetchRestaurantById(id: string) {
