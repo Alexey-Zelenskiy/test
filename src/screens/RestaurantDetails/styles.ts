@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   rootContainer: {
@@ -21,5 +21,9 @@ export default StyleSheet.create({
     height: 0.5,
     width: '100%',
     alignSelf: 'flex-end',
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: 200,
   },
 });

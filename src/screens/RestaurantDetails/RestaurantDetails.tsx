@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import MapView from 'react-native-maps';
 import { Animated, Dimensions, SafeAreaView, View } from 'react-native';
 import { RestaurantDetailsScreenProps } from '~/navigators/RootStackNavigator/RootStackNavigator';
 import HeadingInformation from './HeadingInformation';
@@ -74,6 +75,9 @@ const RestaurantDetails: React.FC<RestaurantDetailsScreenProps> = observer(({ ro
           </> : null
         }
       </View>
+      <Section>
+        <MapView style={styles.map} />
+      </Section>
       <Section
         title="Photos"
       >
