@@ -8869,6 +8869,14 @@ react-native-known-styling-properties@^1.1.0:
   resolved "https://registry.yarnpkg.com/react-native-known-styling-properties/-/react-native-known-styling-properties-1.1.0.tgz#04e961be62bfff64753b7fbbfb5d50af2f0e4421"
   integrity sha512-VYR9Sy0VV/v43OzkojCDRQ85HIfwM+hJ8x9avdEMRZ5s68Lmfsy+U4u85LNOYbrMKZ1zpZd4Zvk+vB0IW4LRmA==
 
+react-native-maps-directions@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-maps-directions/-/react-native-maps-directions-1.8.0.tgz#ced452efeb153e54dfb9315480b0ae9539dfbcc7"
+  integrity sha512-7KWfPrvPLU8VP2nEqsnrWlOuylidlRWWDdk3lqT5Nb1q87FeyzNgA7Ib7n6cZlQwH4usTRlJSnzNo/yQ3u4AZw==
+  dependencies:
+    lodash.isequal "^4.5.0"
+    prop-types "^15.6.0"
+
 react-native-maps@0.28.0:
   version "0.28.0"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.28.0.tgz#1913dd4977652ddfc317d39c7cb7d78a8e513784"
