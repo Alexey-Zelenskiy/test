@@ -25,6 +25,5 @@ export default StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: 200,
-    flex: 1,
   },
 });
